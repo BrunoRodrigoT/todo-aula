@@ -13,8 +13,30 @@ function App() {
   const [list, setList] = React.useState([]);
   const [count, setCount] = React.useState(0);
 
+  React.useEffect(() => {
+    function loadList() {
+      const listStorage = localStorage.getItem("list");
+      if (listStorage) {
+        setList(JSON.parse(listStorage));
+      }
+    }
+    loadList();
+  }, []);
+
+  React.useEffect(() => {
+    function loadCount() {
+      const countStorage = localStorage.getItem("count");
+      if (countStorage) {
+        setCount(JSON.parse(countStorage));
+      }
+    }
+    loadCount();
+  }, []);
+
   function handleRemove(i) {
-    setList(list.filter((_, index) => index !== i));
+    const newList = list.filter((_, index) => index !== i);
+    setList(newList);
+    localStorage.setItem("list", JSON.stringify(newList));
   }
 
   return (
@@ -32,6 +54,7 @@ function App() {
                 onClickToRemove={() => {
                   handleRemove(index);
                   setCount(count + 1);
+                  localStorage.setItem("count", JSON.stringify(count + 1));
                 }}
               />
             ))
@@ -40,7 +63,9 @@ function App() {
         <FinishedCard counter={count} />
         <NewTaskForm
           onSubmit={(dado) => {
-            setList([...list, dado]);
+            const updatedList = [...list, dado];
+            setList(updatedList);
+            localStorage.setItem("list", JSON.stringify(updatedList));
           }}
         />
       </div>
