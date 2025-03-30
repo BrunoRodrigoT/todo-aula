@@ -8,7 +8,8 @@ export default function NewTaskForm({ onSubmit }) {
     event.preventDefault();
     const title = event.target[0].value;
     const description = event.target[1].value;
-    onSubmit({ title, description });
+    const createdAt = new Date().toLocaleString();
+    onSubmit({ title, description, createdAt });
   }
 
   return (

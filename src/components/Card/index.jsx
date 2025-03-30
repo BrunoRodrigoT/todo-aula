@@ -6,6 +6,7 @@ export default function Card({ onClickToRemove, data }) {
     <div className={styles.card}>
       <h2>{data.title}</h2>
       <p>{data.description ?? "Não informado"}</p>
+      <small>{data.createdAt}</small>
       <div onClick={onClickToRemove} className={styles.remove}>
         X
       </div>

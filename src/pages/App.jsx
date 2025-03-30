@@ -1,5 +1,13 @@
 import React from "react";
-import { Container, Title, Card, CardList, NewTaskForm } from "../components";
+import {
+  Container,
+  Title,
+  Card,
+  CardList,
+  NewTaskForm,
+  FinishedCard,
+} from "../components";
+import styles from "./styles.module.css";
 
 function App() {
   const [list, setList] = React.useState([]);
@@ -12,28 +20,30 @@ function App() {
   return (
     <Container>
       <Title>ToDo List</Title>
-      <NewTaskForm
-        onSubmit={(dado) => {
-          setList([...list, dado]);
-        }}
-      />
-      <CardList>
-        <p>Tasks finalizadas: {count}</p>
-        {!list.length ? (
-          <p>Nenhum item na lista</p>
-        ) : (
-          list.map((item, index) => (
-            <Card
-              key={index}
-              data={item}
-              onClickToRemove={() => {
-                handleRemove(index);
-                setCount(count + 1);
-              }}
-            />
-          ))
-        )}
-      </CardList>
+      <div className={styles.grid}>
+        <CardList>
+          {!list.length ? (
+            <p>Nenhum item na lista</p>
+          ) : (
+            list.map((item, index) => (
+              <Card
+                key={index}
+                data={item}
+                onClickToRemove={() => {
+                  handleRemove(index);
+                  setCount(count + 1);
+                }}
+              />
+            ))
+          )}
+        </CardList>
+        <FinishedCard counter={count} />
+        <NewTaskForm
+          onSubmit={(dado) => {
+            setList([...list, dado]);
+          }}
+        />
+      </div>
     </Container>
   );
 }
